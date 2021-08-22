@@ -1,0 +1,23 @@
+button {
+    border: none;
+    background-color: #2196F3;
+    padding: 20px 50px;
+    margin: 0px auto;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+button:hover{
+    background-color: #1e7ecc;
+}
+
+.cta-container{
+    width: 100%;
+}
+
+#section1, 
+#section2{
+    width: 100%;
+    padding: 50px 0px;
+}

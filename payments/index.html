@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <h1>Pay 0</h1>
+
+    <button id="succes-button" class="btn-success">
+       Success
+    </button>
+
+    <button id="failure-button" class="btn-error">
+        Failure
+     </button>
+
+     <script>
+
+        window.addEventListener("message", (event) => {
+            console.log(event)
+        // if (event.origin !== "http://example.org:8080")
+        //     return;
+
+        }, false);
+
+     </script>
+</body>
+</html>
