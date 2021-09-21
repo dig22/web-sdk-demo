@@ -1,4 +1,4 @@
-const codeToBeInjected  = `
+const codeToBeInjected = `
     <div id="sdk-window-container">
         <div id="sdk-window">
         </div>
@@ -7,9 +7,9 @@ const codeToBeInjected  = `
 
 const iframeToBeInjected = `<iframe src="../payments/" id="sdk-main-iframe" title="Payment"></iframe>`;
 
-const SDK = function(apiKey){
-    
-    if (SDK.isLoaded){
+const SDK = function (apiKey) {
+
+    if (SDK.isLoaded) {
         console.error('SDK already loaded');
         return
     }
@@ -25,25 +25,45 @@ const SDK = function(apiKey){
     sdkWindow.classList.add("hidden");
     sdkWindowContainer.classList.add("hidden");
 
-    this.registerPaymentButton = (el , onSuccess, onFailure) => {
 
-       
-        el.addEventListener('click', (event)=> {
+    var showScreen = () => {
+        sdkWindow.classList.remove("hidden");
+        sdkWindow.classList.add("show");
+        sdkWindowContainer.classList.remove("hidden");
+        sdkWindowContainer.classList.add("show");
+    }
+
+    var hideScreen = () => {
+        sdkWindow.classList.remove("show");
+        sdkWindow.classList.add("hidden");
+        sdkWindowContainer.classList.remove("show");
+        sdkWindowContainer.classList.add("hidden");
+    }
+
+    this.registerPaymentButton = (el, options, onSuccess, onFailure) => {
+
+
+        el.addEventListener('click', (event) => {
 
             sdkWindow.innerHTML = iframeToBeInjected
-            
-            sdkWindow.classList.remove("hidden");
-            sdkWindow.classList.add("show");
-            sdkWindowContainer.classList.remove("hidden");
-            sdkWindowContainer.classList.add("show");
+
+            showScreen()
 
             document.querySelector('#sdk-main-iframe').addEventListener("load", (event) => {
                 console.log('posting register message to iframe')
-                event.target.contentWindow.postMessage({eventName: 'register_sdk_parent', apiKey : this.apiKey}, '*')
+                event.target.contentWindow.postMessage({ eventName: 'register_sdk_parent', apiKey: this.apiKey, options }, '*')
             })
-            
+
             window.addEventListener("message", (event) => {
-                console.log('message on sdk', event)
+                //TODO Check origin
+                console.log(event)
+                if (event.data.eventName === "payment_success") {
+                    onSuccess(event.data.data)
+                } else {
+                    onFailure(event.data.error)
+                }
+
+                hideScreen()
             })
         })
     }

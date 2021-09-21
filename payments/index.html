@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <h1>Pay 0</h1>
+    <h1 id="payment-ammount">Pay 0</h1>
 
     <button id="succes-button" class="btn-success">
        Success
@@ -21,12 +21,30 @@
 
      <script>
 
-        window.addEventListener("message", (event) => {
-            console.log(event)
-        // if (event.origin !== "http://example.org:8080")
-        //     return;
+        var sdkParent = null
+        var price = 0
 
+        var setPrice = (price) =>{
+            price = price;
+            document.querySelector("#payment-ammount").innerHTML = `Pay ${price}`
+        }
+
+        window.addEventListener("message", (event) => {
+            console.log("in payments",event)
+            if (event.origin === window.parent.location.origin){
+               console.log("in payments",event.origin, window.parent.location.origin )
+               sdkParent = window.parent
+               setPrice(event.data.options.price)
+            }
         }, false);
+
+        document.querySelector("#succes-button").addEventListener("click", ()=>{
+            sdkParent.postMessage({ eventName: 'payment_success', data : {id : 'some_id_from_server'} }, '*')
+        })
+
+        document.querySelector("#failure-button").addEventListener("click", ()=>{
+            sdkParent.postMessage({ eventName: 'payment_failed', error : {message : 'dummy error thrown'} }, '*')
+        })
 
      </script>
 </body>
