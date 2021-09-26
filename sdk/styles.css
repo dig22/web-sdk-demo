@@ -1,50 +1,48 @@
-
 #sdk-window-container {
-    position: fixed;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
-  
+
 #sdk-window {
-    position: fixed;
-    z-index: 2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #sdk-window.hidden,
 #sdk-window-container.hidden {
-    display: none;
+  display: none;
 }
 
 #sdk-window.show {
-    animation: expand 1s forwards;
+  animation: expand 1s forwards;
 }
-
 
 #sdk-window > iframe {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background-color: #fcfcfc;
-    border-width: 0px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: #fcfcfc;
+  border-width: 0px;
 }
-  
+
 @keyframes expand {
-    from {
-      height: 0%;
-      width: 0%;
-    }
-    to {
-      width: 95%;
-      height: 96%;
-    }
+  from {
+    height: 0%;
+    width: 0%;
   }
+  to {
+    width: 95%;
+    height: 96%;
+  }
+}

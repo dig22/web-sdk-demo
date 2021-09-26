@@ -1,51 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Make Payment</title>
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
     <h1 id="payment-ammount">Pay 0</h1>
 
-    <button id="succes-button" class="btn-success">
-       Success
-    </button>
+    <button id="succes-button" class="btn-success">Success</button>
 
-    <button id="failure-button" class="btn-error">
-        Failure
-     </button>
+    <button id="failure-button" class="btn-error">Failure</button>
 
-     <script>
+    <script>
+      var sdkParent = null;
+      var sdkOrigin = null;
 
-        var sdkParent = null
-        var price = 0
+      var price = 0;
+      var buttonSuccess = document.querySelector("#succes-button");
+      var buttonFailure = document.querySelector("#failure-button");
 
-        var setPrice = (price) =>{
-            price = price;
-            document.querySelector("#payment-ammount").innerHTML = `Pay ${price}`
-        }
+      var setPrice = (price) => {
+        price = price;
+        document.querySelector("#payment-ammount").innerHTML = `Pay ${price}`;
+      };
 
-        window.addEventListener("message", (event) => {
-            console.log("in payments",event)
-            if (event.origin === window.parent.location.origin){
-               console.log("in payments",event.origin, window.parent.location.origin )
-               sdkParent = window.parent
-               setPrice(event.data.options.price)
-            }
-        }, false);
+      window.addEventListener(
+        "message",
+        (event) => {
+          sdkParent = window.parent;
+          sdkOrigin = event.origin;
+          setPrice(event.data.options.price);
+        },
+        false
+      );
 
-        document.querySelector("#succes-button").addEventListener("click", ()=>{
-            sdkParent.postMessage({ eventName: 'payment_success', data : {id : 'some_id_from_server'} }, '*')
-        })
+      buttonSuccess.addEventListener("click", () => {
+        // perform side effect
+        // ...
 
-        document.querySelector("#failure-button").addEventListener("click", ()=>{
-            sdkParent.postMessage({ eventName: 'payment_failed', error : {message : 'dummy error thrown'} }, '*')
-        })
+        sdkParent?.postMessage(
+          {
+            eventName: "payment_success",
+            data: { id: "some_id_from_server_####" },
+          },
+          sdkOrigin
+        );
+      });
 
-     </script>
-</body>
+      buttonFailure.addEventListener("click", () => {
+        // perform side effect
+        // ...
+
+        sdkParent?.postMessage(
+          {
+            eventName: "payment_failed",
+            error: { message: "dummy error thrown" },
+          },
+          sdkOrigin
+        );
+      });
+    </script>
+  </body>
 </html>
