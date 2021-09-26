@@ -4,6 +4,8 @@ This project demonstrates how to effectively use window.postMessage() and iframe
 
 We'll be taking a payments website as an example and building a wrapper project that will call a SDK which we would expose APIs like onSuccess and onCallback to the partner.
 
+![project demo](./docs/stucture.png)
+
 ## Instructions to start the project
 
 ```bash
