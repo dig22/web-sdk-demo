@@ -20,6 +20,9 @@ const SDK = function (apiKey) {
 
 
     let codetoInject = new DOMParser().parseFromString(codeToBeInjected, 'text/html').body.childNodes[0];
+    
+    
+    // We inject our container to the client website
     document.body.appendChild(codetoInject);
 
     let sdkWindow = document.querySelector("#sdk-window");
@@ -48,6 +51,7 @@ const SDK = function (apiKey) {
 
         el.addEventListener('click', () => {
 
+            // We inject the iframe only when the button is clicked, this is to optimize the load time of the SDK and client page 
             sdkWindow.innerHTML = iframeToBeInjected
             paymentsIframe = document.querySelector('#sdk-main-iframe')
 
@@ -61,13 +65,7 @@ const SDK = function (apiKey) {
                 if (event.origin !== paymentsOrigin) { 
                      return;
                 }
-
-                if (event.data.eventName === "payment_success") {
-                    onSuccess(event.data.data)
-                } else {
-                    onFailure(event.data.error)
-                }
-
+                event.data.eventName === "payment_success" ? onSuccess(event.data.data) : onFailure(event.data.error);
                 hideScreen()
             })
         })

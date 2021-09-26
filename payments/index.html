@@ -27,15 +27,11 @@
         document.querySelector("#payment-ammount").innerHTML = `Pay ${price}`;
       };
 
-      window.addEventListener(
-        "message",
-        (event) => {
-          sdkParent = window.parent;
-          sdkOrigin = event.origin;
-          setPrice(event.data.options.price);
-        },
-        false
-      );
+      window.addEventListener("message", (event) => {
+        sdkParent = window.parent;
+        sdkOrigin = event.origin;
+        setPrice(event.data.options.price);
+      });
 
       buttonSuccess.addEventListener("click", () => {
         // perform side effect
